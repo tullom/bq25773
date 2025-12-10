@@ -101,26 +101,25 @@ jobs:
           clippy_flags: --release -- --cap-lints warn -F clippy::suspicious -F clippy::correctness -F clippy::perf -F clippy::style -A clippy::all -W clippy::panic -W clippy::unwrap_used -W clippy::expect_used -W clippy::indexing_slicing -W clippy::todo -W clippy::unimplemented -W clippy::unreachable -W clippy::panic_in_result_fn
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-  # Enable once we have a released crate
-  # semver:
-  #   runs-on: ubuntu-latest
-  #   name: semver
-  #   needs: commit_list
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       commit: ${{ fromJSON(needs.commit_list.outputs.commits) }}
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         submodules: true
-  #         ref: ${{ matrix.commit }}
-  #     - name: Install stable
-  #       uses: dtolnay/rust-toolchain@stable
-  #       with:
-  #         components: rustfmt
-  #     - name: cargo-semver-checks
-  #       uses: obi1kenobi/cargo-semver-checks-action@v2
+  semver:
+    runs-on: ubuntu-latest
+    name: semver
+    needs: commit_list
+    strategy:
+      fail-fast: false
+      matrix:
+        commit: ${{ fromJSON(needs.commit_list.outputs.commits) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          ref: ${{ matrix.commit }}
+      - name: Install stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+      - name: cargo-semver-checks
+        uses: obi1kenobi/cargo-semver-checks-action@v2
 
   doc:
     runs-on: ubuntu-latest
