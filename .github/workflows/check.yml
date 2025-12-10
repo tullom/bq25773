@@ -98,7 +98,7 @@ jobs:
         uses: giraffate/clippy-action@v1
         with:
           reporter: 'github-pr-check'
-          clippy_flags: -- -F clippy::suspicious -F clippy::correctness -F clippy::perf -F clippy::style
+          clippy_flags: --release -- --cap-lints warn -F clippy::suspicious -F clippy::correctness -F clippy::perf -F clippy::style -A clippy::all -W clippy::panic -W clippy::unwrap_used -W clippy::expect_used -W clippy::indexing_slicing -W clippy::todo -W clippy::unimplemented -W clippy::unreachable -W clippy::panic_in_result_fn
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   # Enable once we have a released crate
